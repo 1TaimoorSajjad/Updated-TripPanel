@@ -5,8 +5,12 @@ import { UserformComponent } from './Components/userform/userform.component';
 
 const routes: Routes = [
   {
-    path : "Create/Trip",
+    path : "Trip/Create",
     component : UserformComponent
+  },
+  {
+    path: "Trip/List",
+    component : TripdetailsComponent
   }
 ];
 
