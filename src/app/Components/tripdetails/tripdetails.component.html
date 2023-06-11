@@ -1,0 +1,21 @@
+<table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Contact No.</th>
+        <th>PU Address</th>
+        <th>DO Address</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of userForms">
+        <td>{{ user.clientName }}</td>
+        <td>{{ user.phoneNumber }}</td>
+        <td>{{ user.pickupAddress }}</td>
+        <td>{{ user.dropOffAddress }}</td>
+        <td>{{ user.status }}</td>
+      </tr>
+    </tbody>
+  </table>
+  
