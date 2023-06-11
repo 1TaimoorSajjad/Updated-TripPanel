@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tripdetails',
@@ -9,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
 export class TripdetailsComponent implements OnInit {
   userForms: any[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit(): void {
     this.fetchUserForms();
@@ -28,4 +29,15 @@ export class TripdetailsComponent implements OnInit {
         }
       );
   }
+
+  editUser(user: any) {
+    console.log("User being edited:", user);
+  
+    if (user && user.id) {
+      this.router.navigate(['/Trip/Create', user.id]);
+    } else {
+      console.log("Invalid user object or missing ID");
+    }
+  }
+  
 }

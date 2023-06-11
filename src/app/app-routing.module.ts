@@ -5,15 +5,19 @@ import { UserformComponent } from './Components/userform/userform.component';
 
 const routes: Routes = [
   {
-    path : "Trip/Create",
-    component : UserformComponent
+    path: 'Trip/Create',
+    component: UserformComponent
   },
   {
-    path: "Trip/List",
-    component : TripdetailsComponent
-  }
+    path: 'Trip/List',
+    component: TripdetailsComponent
+  },
+  {
+    path: 'Trip/Edit/:id',
+    component: UserformComponent
+  },
+  
 ];
-
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
