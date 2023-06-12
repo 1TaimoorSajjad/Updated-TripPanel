@@ -44,7 +44,21 @@ export class TripdetailsComponent implements OnInit {
       console.log("Invalid user object or missing ID");
     }
   }
-  deleteUser(){
-    
+  deleteUser(userId: string) {
+    if (userId) {
+      this.http.delete(`https://final-build-f2a86-default-rtdb.firebaseio.com/users/${userId}.json`)
+        .subscribe(
+          () => {
+            // Remove the deleted user from the userForms array
+            this.userForms = this.userForms.filter(user => user.id !== userId);
+          },
+          (error) => {
+            console.log('Error deleting user:', error);
+          }
+        );
+    } else {
+      console.log("Invalid user ID");
+    }
   }
+  
 }
