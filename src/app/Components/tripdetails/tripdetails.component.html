@@ -34,7 +34,7 @@
                 scope="col"
                 class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
               >
-                Actions
+                Status
               </th>
               <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
                 <span class="sr-only">Edit</span>
@@ -60,9 +60,11 @@
                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                   {{ user.dropOffAddress }}
                 </td>
-
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                  Pending
+                </td>
                 <td
-                  class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0"
+                  class="relative whitespace-nowrap py-4 pl-3 pr-4 text-left text-sm font-medium sm:pr-0"
                 >
                   <button class="text-blue-500" (click)="editUser(user)">
                     Edit
