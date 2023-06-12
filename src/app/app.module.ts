@@ -8,6 +8,7 @@ import { UserformComponent } from './Components/userform/userform.component';
 import { TripdetailsComponent } from './Components/tripdetails/tripdetails.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { SidenavComponent } from './Components/common/sidenav/sidenav.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { environment } from 'src/environments/environment';
     AppComponent,
     UserformComponent,
     TripdetailsComponent,
+    SidenavComponent,
 
   ],
   imports: [

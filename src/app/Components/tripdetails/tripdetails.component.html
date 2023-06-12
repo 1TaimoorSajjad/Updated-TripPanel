@@ -1,49 +1,78 @@
-<div class="bg-gray-100">
-    <div class="flex">
-      <div class="w-1/12 bg-blue-500 h-screen">
-        <nav class="p-2">
-          <label for="medfast" class="text-white font-bold text-lg">MedFastCab</label>
-          <div class="bg-gray-300 h-px my-4"></div>
-          <ul class="space-y-4">
-            <li><a routerLink="/Trip/Create" class="text-white font-bold text-lg">Create</a></li>
-            <li><a routerLink="/Trip/List" class="text-white font-bold text-lg">Trips</a></li>
-          </ul>
-        </nav>
-      </div>
-      <div class="p-4 w-11/12">
-        <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-            <div class="overflow-hidden shadow ring-1 ring-main-base md:rounded-lg">
-              <table class="min-w-full divide-y divide-main-base">
-                <thead class="bg-main-base-50">
-                  <tr>
-                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-xs font-semibold text-main-dark sm:pl-6">Name</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-xs font-semibold text-main-dark">Contact No.</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-xs font-semibold text-main-dark">PU Address</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-xs font-semibold text-main-dark">DO Address</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-xs font-semibold text-main-dark">Status</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-xs font-semibold text-main-dark">Actions</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-main-base bg-white">
-                  <ng-container *ngFor="let user of userForms">
-                    <tr>
-                      <td>{{ user.clientName }}</td>
-                      <td>{{ user.phoneNumber }}</td>
-                      <td>{{ user.pickupAddress }}</td>
-                      <td>{{ user.dropOffAddress }}</td>
-                      <td>{{ user.status }}</td>
-                      <td>
-                        <button class="text-blue-500" (click)="editUser(user)">Edit</button>
-                    </td>
-                    </tr>
-                  </ng-container>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+<div class="px-4 sm:px-6 lg:px-8">
+  <div class="mt-8 flow-root">
+    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+        <table class="min-w-full divide-y divide-gray-300">
+          <thead>
+            <tr>
+              <th
+                scope="col"
+                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+              >
+                Name
+              </th>
+              <th
+                scope="col"
+                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Contact no.
+              </th>
+              <th
+                scope="col"
+                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                PU Address
+              </th>
+              <th
+                scope="col"
+                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                DO Address
+              </th>
+
+              <th
+                scope="col"
+                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+              >
+                Actions
+              </th>
+              <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
+                <span class="sr-only">Edit</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            <ng-container *ngFor="let user of userForms">
+              <tr>
+                <td
+                  class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0"
+                >
+                  {{ user.clientName }}
+                </td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                  {{ user.phoneNumber }}
+                </td>
+                <td
+                  class="whitespace-nowrap px-3 py-4 text-sm mailto:text-gray-500"
+                >
+                  {{ user.pickupAddress }}
+                </td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                  {{ user.dropOffAddress }}
+                </td>
+
+                <td
+                  class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0"
+                >
+                  <button class="text-blue-500" (click)="editUser(user)">
+                    Edit
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-  
+</div>
