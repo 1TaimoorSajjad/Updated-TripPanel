@@ -37,7 +37,7 @@ export class TripdetailsComponent implements OnInit {
     if (user && user.id) {
       const index = this.userForms.findIndex((form) => form.id === user.id);
       if (index !== -1) {
-        this.userForms[index] = { ...this.userForms[index], ...user }; // Merge the updated data with the existing form data
+        this.userForms[index] = { ...this.userForms[index], ...user };
         this.router.navigate(['/Trip/Create', user.id]);
       }
     } else {
@@ -49,7 +49,6 @@ export class TripdetailsComponent implements OnInit {
       this.http.delete(`https://final-build-f2a86-default-rtdb.firebaseio.com/users/${userId}.json`)
         .subscribe(
           () => {
-            // Remove the deleted user from the userForms array
             this.userForms = this.userForms.filter(user => user.id !== userId);
           },
           (error) => {
