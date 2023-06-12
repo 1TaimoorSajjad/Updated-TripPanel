@@ -44,5 +44,7 @@ export class TripdetailsComponent implements OnInit {
       console.log("Invalid user object or missing ID");
     }
   }
-  
+  deleteUser(){
+    
+  }
 }
