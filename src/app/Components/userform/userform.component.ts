@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormControl } from '@angular/forms';
-
 
 
 @Component({
@@ -13,8 +11,6 @@ import { FormControl } from '@angular/forms';
 })
 export class UserformComponent implements OnInit {
   userForm!: FormGroup;
-  isEditMode: boolean = false;
-  userId: string = '';
 
   constructor(
     private f: FormBuilder,
@@ -25,7 +21,6 @@ export class UserformComponent implements OnInit {
 
   ngOnInit(): void {
     this.userForm = this.f.group({
-      documentId: new FormControl(''),
       clientName: ['', Validators.required],
       phoneNumber: ['', Validators.required],
       cellNumber: ['', Validators.required],
@@ -38,42 +33,38 @@ export class UserformComponent implements OnInit {
       companyNotes: ['', Validators.required],
       serviceType: ['', Validators.required]
     });
-  
+
     this.route.params.subscribe((params) => {
-      if (params.id) {
-        this.userId = params.id;
-        this.loadUserData(this.userId);
+      const userId = params['id'];
+      if (userId) {
+        this.populateFormWithId(userId);
       }
     });
   }
 
-  loadUserData(userId: string) {
-    this.http.get<any>(`https://final-build-f2a86-default-rtdb.firebaseio.com/users/${userId}.json`)
-      .subscribe(
-        (response) => {
-          if (response) {
-            this.userForm.get('documentId')?.setValue(userId); 
-            this.userForm.patchValue(response);
-          } else {
-            console.log('User not found');
-          }
-        },
-        (error) => {
-          console.log('Error fetching user data:', error);
+  populateFormWithId(id: string) {
+    this.http
+      .get(`https://final-build-f2a86-default-rtdb.firebaseio.com/users/${id}.json`)
+      .subscribe((response: any) => {
+        if (response) {
+          const user = {
+            ...response,
+            documentId: id
+          };
+          this.userForm.patchValue(user);
         }
-      );
+      });
   }
-  
-
   
 
   onSubmit() {
     const formData = this.userForm.value;
   
-    if (this.isEditMode) {
-      delete formData.tripID;
-      formData.id = this.userId;
-      this.http.put(`https://final-build-f2a86-default-rtdb.firebaseio.com/users/${this.userId}.json`, formData)
+    if (formData.documentId) {
+      const documentId = formData.documentId;
+      delete formData.documentId;
+  
+      this.http.put(`https://final-build-f2a86-default-rtdb.firebaseio.com/users/${documentId}.json`, formData)
         .subscribe(
           (response) => {
             console.log('Data updated successfully:', response);
@@ -97,10 +88,5 @@ export class UserformComponent implements OnInit {
     }
   }
   
-
-  redirectToEditForm() {
-    if (this.isEditMode) {
-      this.router.navigate(['/Trip/Edit', this.userId]);
-    }
-  }
+  
 }

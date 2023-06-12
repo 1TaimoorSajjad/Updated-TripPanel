@@ -9,6 +9,7 @@ import { TripdetailsComponent } from './Components/tripdetails/tripdetails.compo
 import { ReactiveFormsModule } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +21,8 @@ import { environment } from 'src/environments/environment';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    
   
   ],
   providers: [],

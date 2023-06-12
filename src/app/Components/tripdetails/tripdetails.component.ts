@@ -21,7 +21,7 @@ export class TripdetailsComponent implements OnInit {
       .subscribe(
         (response) => {
           if (response) {
-            this.userForms = Object.values(response);
+            this.userForms = Object.keys(response).map(key => ({ id: key, ...response[key] }));
           }
         },
         (error) => {
@@ -29,12 +29,17 @@ export class TripdetailsComponent implements OnInit {
         }
       );
   }
+  
 
   editUser(user: any) {
     console.log("User being edited:", user);
   
     if (user && user.id) {
-      this.router.navigate(['/Trip/Create', user.id]);
+      const index = this.userForms.findIndex((form) => form.id === user.id);
+      if (index !== -1) {
+        this.userForms[index] = { ...this.userForms[index], ...user }; // Merge the updated data with the existing form data
+        this.router.navigate(['/Trip/Create', user.id]);
+      }
     } else {
       console.log("Invalid user object or missing ID");
     }

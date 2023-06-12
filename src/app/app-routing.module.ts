@@ -13,7 +13,7 @@ const routes: Routes = [
     component: TripdetailsComponent
   },
   {
-    path: 'Trip/Edit/:id',
+    path: 'Trip/Create/:id',
     component: UserformComponent
   },
   
