@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-userform',
   templateUrl: './userform.component.html',
@@ -11,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class UserformComponent implements OnInit {
   userForm!: FormGroup;
+  documentId: string = '';
 
   constructor(
     private f: FormBuilder,
@@ -37,6 +37,7 @@ export class UserformComponent implements OnInit {
     this.route.params.subscribe((params) => {
       const userId = params['id'];
       if (userId) {
+        this.documentId = userId;
         this.populateFormWithId(userId);
       }
     });
@@ -47,24 +48,17 @@ export class UserformComponent implements OnInit {
       .get(`https://final-build-f2a86-default-rtdb.firebaseio.com/users/${id}.json`)
       .subscribe((response: any) => {
         if (response) {
-          const user = {
-            ...response,
-            documentId: id
-          };
-          this.userForm.patchValue(user);
+          this.userForm.patchValue(response);
         }
       });
   }
-  
 
   onSubmit() {
     const formData = this.userForm.value;
-  
-    if (formData.documentId) {
-      const documentId = formData.documentId;
-      delete formData.documentId;
-  
-      this.http.put(`https://final-build-f2a86-default-rtdb.firebaseio.com/users/${documentId}.json`, formData)
+
+    if (this.documentId) {
+      this.http
+        .put(`https://final-build-f2a86-default-rtdb.firebaseio.com/users/${this.documentId}.json`, formData)
         .subscribe(
           (response) => {
             console.log('Data updated successfully:', response);
@@ -75,7 +69,8 @@ export class UserformComponent implements OnInit {
           }
         );
     } else {
-      this.http.post('https://final-build-f2a86-default-rtdb.firebaseio.com/users.json', formData)
+      this.http
+        .post('https://final-build-f2a86-default-rtdb.firebaseio.com/users.json', formData)
         .subscribe(
           (response) => {
             console.log('Data sent successfully:', response);
@@ -87,6 +82,4 @@ export class UserformComponent implements OnInit {
         );
     }
   }
-  
-  
 }
