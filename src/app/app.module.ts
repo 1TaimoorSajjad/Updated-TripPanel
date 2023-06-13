@@ -15,6 +15,7 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideDatabase,getDatabase } from '@angular/fire/database';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { FirestoreModule } from '@angular/fire/firestore';
+import { PlacesDirective } from './Directives/places.directive';
 
 
 
@@ -24,6 +25,7 @@ import { FirestoreModule } from '@angular/fire/firestore';
     UserformComponent,
     TripdetailsComponent,
     SidenavComponent,
+    PlacesDirective,
 
   ],
   imports: [

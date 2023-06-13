@@ -15,13 +15,13 @@ import {
 @Component({
   selector: 'app-userform',
   templateUrl: './userform.component.html',
-  styleUrls: ['./userform.component.css']
+  styleUrls: ['./userform.component.css'],
 })
 export class UserformComponent implements OnInit {
   userForm!: FormGroup;
   documentId: string = '';
   collectionRef: any;
-
+  fieldSelected = false;
 
   constructor(
     private f: FormBuilder,
@@ -30,7 +30,7 @@ export class UserformComponent implements OnInit {
     private route: ActivatedRoute,
     private firestore: Firestore
   ) {
-    this.collectionRef = collection(this.firestore, 'BrokerTrips')
+    this.collectionRef = collection(this.firestore, 'BrokerTrips');
   }
 
   ngOnInit(): void {
@@ -46,7 +46,7 @@ export class UserformComponent implements OnInit {
       miles: ['', Validators.required],
       csr: ['', Validators.required],
       companyNotes: ['', Validators.required],
-      serviceType: ['', Validators.required]
+      serviceType: ['', Validators.required],
     });
 
     this.route.params.subscribe((params) => {
@@ -67,7 +67,7 @@ export class UserformComponent implements OnInit {
   //       }
   //     });
   // }
-   
+
   populateFormWithId(id: string) {
     const docRef = doc(this.collectionRef, id);
 
@@ -75,7 +75,7 @@ export class UserformComponent implements OnInit {
       .then((docSnap) => {
         if (docSnap.exists()) {
           const formData = docSnap.data();
-          formData.documentId = id; 
+          formData.documentId = id;
           this.userForm.patchValue(formData);
         } else {
           console.log('Document does not exist');
@@ -139,15 +139,18 @@ export class UserformComponent implements OnInit {
           console.log('Error sending form data to Firestore:', error);
         });
     }
-
-
   }
   addDollarSign(event: any) {
     const input = event.target as HTMLInputElement;
     const value = input.value;
-  
+
     if (!value.startsWith('$')) {
       input.value = '$' + value;
     }
+  }
+
+  onAddressSelected(address: any) {
+    this.userForm.patchValue({ pickupAddress: address });
+    console.log('Selected Address:', address);
   }
 }

@@ -77,6 +77,8 @@
           type="text"
           placeholder="Enter pickup address"
           formControlName="pickupAddress"
+          appPlaces
+          (addressSelected)="onAddressSelected($event)"
         />
       </div>
 
