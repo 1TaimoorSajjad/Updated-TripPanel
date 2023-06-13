@@ -22,6 +22,7 @@ export class UserformComponent implements OnInit {
   documentId: string = '';
   collectionRef: any;
   fieldSelected = false;
+  selectedVehicleType: any;
 
   constructor(
     private f: FormBuilder,
@@ -152,5 +153,10 @@ export class UserformComponent implements OnInit {
   onAddressSelected(address: any) {
     this.userForm.patchValue({ pickupAddress: address });
     console.log('Selected Address:', address);
+  }
+
+  onVehicleTypeSelected(vehicleType: string) {
+    this.selectedVehicleType = vehicleType;
+    console.log(this.selectedVehicleType);
   }
 }

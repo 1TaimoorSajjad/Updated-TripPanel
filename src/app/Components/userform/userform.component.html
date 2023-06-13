@@ -163,47 +163,76 @@
       <div
         class="grid sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4"
       >
-        <div class="btn-white justify-start hover:bg-indigo-400">
+        <div
+          [class.btn-white]="selectedVehicleType !== 'Standard'"
+          [class.bg-indigo-400]="selectedVehicleType === 'Standard'"
+          (click)="onVehicleTypeSelected('Standard')"
+          class="justify-start hover:bg-indigo-400 cursor-pointer"
+        >
           <div class="flex items-center gap-2 hover:text-white">
             <img
               src="../../../assets/images/standard.png"
               alt=""
               class="h-12 w-16 object-scale-down"
+              style="width: 64px; height: 48px"
             />
-            <div class="text-sm font-medium">Standard</div>
+            <div class="text-sm font-medium" style="min-width: 5rem">
+              Standard
+            </div>
           </div>
         </div>
-        <div class="btn-white justify-start hover:bg-indigo-400">
+        <div
+          [class.btn-white]="selectedVehicleType !== 'Premium'"
+          [class.bg-indigo-400]="selectedVehicleType === 'Premium'"
+          (click)="onVehicleTypeSelected('Premium')"
+          class="justify-start hover:bg-indigo-400 cursor-pointer"
+        >
           <div class="flex items-center gap-2 hover:text-white">
             <img
               src="../../../assets/images/premium.png"
               alt=""
               class="h-12 w-16 object-scale-down"
+              style="width: 64px; height: 48px"
             />
-            <div class="text-sm font-medium">Premium</div>
+            <div class="text-sm font-medium" style="min-width: 5rem">
+              Premium
+            </div>
           </div>
         </div>
-        <div class="btn-white justify-start hover:bg-indigo-400">
+        <div
+          [class.btn-white]="selectedVehicleType !== 'Liv'"
+          [class.bg-indigo-400]="selectedVehicleType === 'Liv'"
+          (click)="onVehicleTypeSelected('Liv')"
+          class="justify-start hover:bg-indigo-400 cursor-pointer"
+        >
           <div class="flex items-center gap-2 hover:text-white">
             <img
               src="../../../assets/images/suv.png"
               alt=""
               class="h-12 w-16 object-scale-down"
+              style="width: 64px; height: 48px"
             />
-            <div class="text-sm font-medium">Liv</div>
+            <div class="text-sm font-medium" style="min-width: 5rem">Liv</div>
           </div>
         </div>
-        <div class="btn-white justify-start hover:bg-indigo-400">
+        <div
+          [class.btn-white]="selectedVehicleType !== 'WAV'"
+          [class.bg-indigo-400]="selectedVehicleType === 'WAV'"
+          (click)="onVehicleTypeSelected('WAV')"
+          class="justify-start hover:bg-indigo-400 cursor-pointer"
+        >
           <div class="flex items-center gap-2 hover:text-white">
             <img
               src="../../../assets/images/wav.png"
               alt=""
               class="h-12 w-16 object-scale-down"
+              style="width: 64px; height: 48px"
             />
-            <div class="text-sm font-medium">WAV</div>
+            <div class="text-sm font-medium" style="min-width: 5rem">WAV</div>
           </div>
         </div>
       </div>
+
       <div class="flex items-center justify-end">
         <button class="btn-primary" type="submit">
           {{ documentId ? "Edit" : "Create" }}
