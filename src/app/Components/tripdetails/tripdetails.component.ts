@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class TripdetailsComponent implements OnInit {
   userForms: any[] = [];
+  searchQuery: string = " ";
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -57,6 +58,20 @@ export class TripdetailsComponent implements OnInit {
         );
     } else {
       console.log("Invalid user ID");
+    }
+  }
+
+  get filteredUserForms(): any[] {
+    if (this.searchQuery.trim() === '') {
+      return this.userForms;
+    } else {
+      const query = this.searchQuery.toLowerCase();
+      return this.userForms.filter(user =>
+        user.clientName.toLowerCase().includes(query) ||
+        user.phoneNumber.toLowerCase().includes(query) ||
+        user.pickupAddress.toLowerCase().includes(query) ||
+        user.dropOffAddress.toLowerCase().includes(query)
+      );
     }
   }
   

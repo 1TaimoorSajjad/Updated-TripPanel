@@ -9,6 +9,8 @@ import { TripdetailsComponent } from './Components/tripdetails/tripdetails.compo
 import { ReactiveFormsModule } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { SidenavComponent } from './Components/common/sidenav/sidenav.component';
+import { FormsModule } from '@angular/forms';
+
 
 
 @NgModule({
@@ -24,6 +26,7 @@ import { SidenavComponent } from './Components/common/sidenav/sidenav.component'
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
+    FormsModule
     
   
   ],
