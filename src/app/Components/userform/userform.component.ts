@@ -2,6 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import {
+  Firestore,
+  collection,
+  doc,
+  getDoc,
+  updateDoc,
+  addDoc,
+} from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-userform',
@@ -11,13 +19,18 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class UserformComponent implements OnInit {
   userForm!: FormGroup;
   documentId: string = '';
+  collectionRef: any;
+
 
   constructor(
     private f: FormBuilder,
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private firestore: Firestore
+  ) {
+    this.collectionRef = collection(this.firestore, 'BrokerTrips')
+  }
 
   ngOnInit(): void {
     this.userForm = this.f.group({
@@ -43,43 +56,89 @@ export class UserformComponent implements OnInit {
     });
   }
 
+  // populateFormWithId(id: string) {
+  //   this.http
+  //     .get(`https://final-build-f2a86-default-rtdb.firebaseio.com/users/${id}.json`)
+  //     .subscribe((response: any) => {
+  //       if (response) {
+  //         this.userForm.patchValue(response);
+  //       }
+  //     });
+  // }
+   
   populateFormWithId(id: string) {
-    this.http
-      .get(`https://final-build-f2a86-default-rtdb.firebaseio.com/users/${id}.json`)
-      .subscribe((response: any) => {
-        if (response) {
-          this.userForm.patchValue(response);
+    const docRef = doc(this.collectionRef, id);
+
+    getDoc(docRef)
+      .then((docSnap) => {
+        if (docSnap.exists()) {
+          const formData = docSnap.data();
+          formData.documentId = id; // Populate the documentId field
+          this.userForm.patchValue(formData);
+        } else {
+          console.log('Document does not exist');
         }
+      })
+      .catch((error: any) => {
+        console.log('Error retrieving document:', error);
       });
   }
+
+  // onSubmit(){
+  //   const formData = this.userForm.value;
+
+  //   if (this.documentId) {
+  //     this.http
+  //       .put(`https://final-build-f2a86-default-rtdb.firebaseio.com/users/${this.documentId}.json`, formData)
+  //       .subscribe(
+  //         (response) => {
+  //           console.log('Data updated successfully:', response);
+  //           this.router.navigate(['/Trip/List']);
+  //         },
+  //         (error) => {
+  //           console.log('Error updating data:', error);
+  //         }
+  //       );
+  //   } else {
+  //     this.http
+  //       .post('https://final-build-f2a86-default-rtdb.firebaseio.com/users.json', formData)
+  //       .subscribe(
+  //         (response) => {
+  //           console.log('Data sent successfully:', response);
+  //           this.router.navigate(['/Trip/List']);
+  //         },
+  //         (error) => {
+  //           console.log('Error sending data:', error);
+  //         }
+  //       );
+  //   }
+  // }
 
   onSubmit() {
     const formData = this.userForm.value;
 
-    if (this.documentId) {
-      this.http
-        .put(`https://final-build-f2a86-default-rtdb.firebaseio.com/users/${this.documentId}.json`, formData)
-        .subscribe(
-          (response) => {
-            console.log('Data updated successfully:', response);
-            this.router.navigate(['/Trip/List']);
-          },
-          (error) => {
-            console.log('Error updating data:', error);
-          }
-        );
+    if (formData.documentId) {
+      const documentId = formData.documentId;
+      delete formData.documentId;
+
+      updateDoc(doc(this.collectionRef, documentId), formData)
+        .then(() => {
+          console.log('Form data updated in Firestore');
+          this.router.navigate(['/Trip/List']);
+        })
+        .catch((error: any) => {
+          console.log('Error updating form data in Firestore:', error);
+        });
     } else {
-      this.http
-        .post('https://final-build-f2a86-default-rtdb.firebaseio.com/users.json', formData)
-        .subscribe(
-          (response) => {
-            console.log('Data sent successfully:', response);
-            this.router.navigate(['/Trip/List']);
-          },
-          (error) => {
-            console.log('Error sending data:', error);
-          }
-        );
+      addDoc(this.collectionRef, formData)
+        .then(() => {
+          console.log('Form data sent to Firestore');
+          this.router.navigate(['/Trip/List']);
+        })
+        .catch((error: any) => {
+          console.log('Error sending form data to Firestore:', error);
+        });
     }
   }
+
 }
