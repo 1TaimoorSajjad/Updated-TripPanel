@@ -1,11 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Firestore, collection, collectionData, doc, deleteDoc } from '@angular/fire/firestore';
+import {
+  Firestore,
+  collection,
+  collectionData,
+  doc,
+  deleteDoc,
+} from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
 interface UserFormData {
-  id: string
+  id: string;
   clientName: string;
   phoneNumber: string;
   cellNumber: string;
@@ -21,19 +27,21 @@ interface UserFormData {
 @Component({
   selector: 'app-tripdetails',
   templateUrl: './tripdetails.component.html',
-  styleUrls: ['./tripdetails.component.css']
+  styleUrls: ['./tripdetails.component.css'],
 })
 export class TripdetailsComponent implements OnInit {
   userForms: UserFormData[] = [];
-  searchQuery: string = " ";
+  searchQuery: string = ' ';
   data!: Observable<UserFormData[]>;
   collectionRef: any;
 
-
-  constructor(private http: HttpClient, private router: Router, private firestore: Firestore, private ActivatedRoute : ActivatedRoute)
-   {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private firestore: Firestore,
+    private ActivatedRoute: ActivatedRoute
+  ) {
     this.collectionRef = collection(this.firestore, 'BrokerTrips');
-
   }
 
   ngOnInit(): void {
@@ -56,18 +64,19 @@ export class TripdetailsComponent implements OnInit {
   //       }
   //     );
   // }
-  
+
   fetchData() {
-    this.data = collectionData(this.collectionRef, { idField: 'id' }) as Observable<UserFormData[]>;
+    this.data = collectionData(this.collectionRef, {
+      idField: 'id',
+    }) as Observable<UserFormData[]>;
     this.data.subscribe((data: UserFormData[]) => {
       this.userForms = data;
     });
   }
 
-
   // editUser(user: any) {
   //   console.log("User being edited:", user);
-  
+
   //   if (user && user.id) {
   //     const index = this.userForms.findIndex((form) => form.id === user.id);
   //     if (index !== -1) {
@@ -80,7 +89,9 @@ export class TripdetailsComponent implements OnInit {
   // }
   editUser(id: string) {
     if (id) {
-      this.router.navigate(['Trip/Create/', id], { relativeTo: this.ActivatedRoute });
+      this.router.navigate(['/Trip/Create', id], {
+        relativeTo: this.ActivatedRoute,
+      });
     }
   }
   // deleteUser(userId: string) {
@@ -116,13 +127,13 @@ export class TripdetailsComponent implements OnInit {
       return this.userForms;
     } else {
       const query = this.searchQuery.toLowerCase();
-      return this.userForms.filter(user =>
-        user.clientName.toLowerCase().includes(query) ||
-        user.phoneNumber.toLowerCase().includes(query) ||
-        user.pickupAddress.toLowerCase().includes(query) ||
-        user.dropOffAddress.toLowerCase().includes(query)
+      return this.userForms.filter(
+        (user) =>
+          user.clientName.toLowerCase().includes(query) ||
+          user.phoneNumber.toLowerCase().includes(query) ||
+          user.pickupAddress.toLowerCase().includes(query) ||
+          user.dropOffAddress.toLowerCase().includes(query)
       );
     }
   }
-  
 }

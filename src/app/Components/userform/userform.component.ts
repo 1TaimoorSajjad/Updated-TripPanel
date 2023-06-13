@@ -9,6 +9,7 @@ import {
   getDoc,
   updateDoc,
   addDoc,
+  setDoc,
 } from '@angular/fire/firestore';
 
 @Component({
@@ -34,6 +35,7 @@ export class UserformComponent implements OnInit {
 
   ngOnInit(): void {
     this.userForm = this.f.group({
+      documentId: [''],
       clientName: ['', Validators.required],
       phoneNumber: ['', Validators.required],
       cellNumber: ['', Validators.required],
@@ -73,7 +75,7 @@ export class UserformComponent implements OnInit {
       .then((docSnap) => {
         if (docSnap.exists()) {
           const formData = docSnap.data();
-          formData.documentId = id; // Populate the documentId field
+          formData.documentId = id; 
           this.userForm.patchValue(formData);
         } else {
           console.log('Document does not exist');
@@ -83,7 +85,6 @@ export class UserformComponent implements OnInit {
         console.log('Error retrieving document:', error);
       });
   }
-
   // onSubmit(){
   //   const formData = this.userForm.value;
 
@@ -116,7 +117,6 @@ export class UserformComponent implements OnInit {
 
   onSubmit() {
     const formData = this.userForm.value;
-
     if (formData.documentId) {
       const documentId = formData.documentId;
       delete formData.documentId;
@@ -139,6 +139,15 @@ export class UserformComponent implements OnInit {
           console.log('Error sending form data to Firestore:', error);
         });
     }
-  }
 
+
+  }
+  addDollarSign(event: any) {
+    const input = event.target as HTMLInputElement;
+    const value = input.value;
+  
+    if (!value.startsWith('$')) {
+      input.value = '$' + value;
+    }
+  }
 }
