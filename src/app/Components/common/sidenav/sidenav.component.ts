@@ -11,8 +11,5 @@ export class SidenavComponent implements OnInit {
 
   constructor(private router: Router) {}
 
-  isLoginPage(): boolean {
-    return this.router.url === '/login';
-  }
   ngOnInit(): void {}
 }
