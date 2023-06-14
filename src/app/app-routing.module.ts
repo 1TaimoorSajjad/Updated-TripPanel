@@ -6,6 +6,10 @@ import { LoginComponent } from './Components/login/login.component';
 
 const routes: Routes = [
   {
+    path: 'login',
+    component: LoginComponent,
+  },
+  {
     path: 'Trip/Create',
     component: UserformComponent,
   },
@@ -16,10 +20,6 @@ const routes: Routes = [
   {
     path: 'Trip/Create/:id',
     component: UserformComponent,
-  },
-  {
-    path: 'Login',
-    component: LoginComponent,
   },
 ];
 @NgModule({

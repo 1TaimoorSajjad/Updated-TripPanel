@@ -1,15 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.css']
+  styleUrls: ['./sidenav.component.css'],
 })
 export class SidenavComponent implements OnInit {
-  isTripDetailsActive: boolean = true; 
-  constructor() { }
+  isTripDetailsActive: boolean = true;
 
-  ngOnInit(): void {
+  constructor(private router: Router) {}
+
+  isLoginPage(): boolean {
+    return this.router.url === '/login';
   }
-
+  ngOnInit(): void {}
 }
