@@ -9,16 +9,14 @@ import { TripdetailsComponent } from './Components/tripdetails/tripdetails.compo
 import { ReactiveFormsModule } from '@angular/forms';
 import { SidenavComponent } from './Components/common/sidenav/sidenav.component';
 import { FormsModule } from '@angular/forms';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideAuth,getAuth } from '@angular/fire/auth';
-import { provideDatabase,getDatabase } from '@angular/fire/database';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideDatabase, getDatabase } from '@angular/fire/database';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { FirestoreModule } from '@angular/fire/firestore';
 import { PlacesDirective } from './Directives/places.directive';
 import { LoginComponent } from './Components/login/login.component';
-
-
 
 @NgModule({
   declarations: [
@@ -28,7 +26,6 @@ import { LoginComponent } from './Components/login/login.component';
     SidenavComponent,
     PlacesDirective,
     LoginComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -41,12 +38,9 @@ import { LoginComponent } from './Components/login/login.component';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
-    provideFirestore(() => getFirestore())
-    
-  
+    provideFirestore(() => getFirestore()),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
-
+export class AppModule {}
