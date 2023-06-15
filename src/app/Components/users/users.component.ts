@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import {
-  Firestore,
-  collection,
-  collectionData,
-  doc,
-  deleteDoc,
-} from '@angular/fire/firestore';
+import { Firestore, collection, collectionData } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 
 @Component({
