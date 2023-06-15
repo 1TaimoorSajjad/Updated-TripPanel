@@ -7,6 +7,7 @@ import {
   doc,
   deleteDoc,
 } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -15,8 +16,10 @@ import {
 })
 export class UsersComponent implements OnInit {
   users!: Observable<any[]>;
+  isUserViewVisible = false;
+  selectedUser: any;
 
-  constructor(private firestore: Firestore) {}
+  constructor(private firestore: Firestore, private router: Router) {}
 
   ngOnInit(): void {
     const collectionRef = collection(this.firestore, 'logincred');
@@ -27,5 +30,13 @@ export class UsersComponent implements OnInit {
     this.users = collectionData(collectionRef);
   }
 
-  viewUser(user: any) {}
+  viewUser(user: any) {
+    this.isUserViewVisible = true;
+    this.selectedUser = user;
+  }
+
+  closeView() {
+    this.isUserViewVisible = false;
+    this.selectedUser = null;
+  }
 }
