@@ -17,6 +17,7 @@ import { FirestoreModule } from '@angular/fire/firestore';
 import { PlacesDirective } from './Directives/places.directive';
 import { LoginComponent } from './Components/login/login.component';
 import { RegisterComponent } from './Components/register/register.component';
+import { UsersComponent } from './Components/users/users.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { RegisterComponent } from './Components/register/register.component';
     PlacesDirective,
     LoginComponent,
     RegisterComponent,
+    UsersComponent,
   ],
   imports: [
     BrowserModule,
