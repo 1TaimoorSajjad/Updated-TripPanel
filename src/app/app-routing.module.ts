@@ -5,8 +5,13 @@ import { UserformComponent } from './Components/userform/userform.component';
 import { LoginComponent } from './Components/login/login.component';
 import { RegisterComponent } from './Components/register/register.component';
 import { UsersComponent } from './Components/users/users.component';
+import { UserviewComponent } from './Components/userview/userview.component';
 
 const routes: Routes = [
+  {
+    path: 'userview',
+    component: UserviewComponent,
+  },
   {
     path: 'users',
     component: UsersComponent,

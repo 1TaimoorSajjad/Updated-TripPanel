@@ -26,4 +26,6 @@ export class UsersComponent implements OnInit {
   async getUsers(collectionRef: any): Promise<void> {
     this.users = collectionData(collectionRef);
   }
+
+  viewUser(user: any) {}
 }
