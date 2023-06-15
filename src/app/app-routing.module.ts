@@ -6,8 +6,13 @@ import { LoginComponent } from './Components/login/login.component';
 import { RegisterComponent } from './Components/register/register.component';
 import { UsersComponent } from './Components/users/users.component';
 import { UserviewComponent } from './Components/userview/userview.component';
+import { ProfileComponent } from './Components/profile/profile.component';
 
 const routes: Routes = [
+  {
+    path: 'profiles',
+    component: ProfileComponent,
+  },
   {
     path: 'userview',
     component: UserviewComponent,

@@ -20,6 +20,7 @@ import { RegisterComponent } from './Components/register/register.component';
 import { UsersComponent } from './Components/users/users.component';
 import { Firestore, collection, addDoc } from '@angular/fire/firestore';
 import { UserviewComponent } from './Components/userview/userview.component';
+import { ProfileComponent } from './Components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { UserviewComponent } from './Components/userview/userview.component';
     RegisterComponent,
     UsersComponent,
     UserviewComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
