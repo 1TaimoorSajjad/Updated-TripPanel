@@ -18,6 +18,7 @@ import { PlacesDirective } from './Directives/places.directive';
 import { LoginComponent } from './Components/login/login.component';
 import { RegisterComponent } from './Components/register/register.component';
 import { UsersComponent } from './Components/users/users.component';
+import { Firestore, collection, addDoc } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,6 @@ import { UsersComponent } from './Components/users/users.component';
     HttpClientModule,
     FormsModule,
     FirestoreModule,
-
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),

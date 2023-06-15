@@ -4,8 +4,13 @@ import { TripdetailsComponent } from './Components/tripdetails/tripdetails.compo
 import { UserformComponent } from './Components/userform/userform.component';
 import { LoginComponent } from './Components/login/login.component';
 import { RegisterComponent } from './Components/register/register.component';
+import { UsersComponent } from './Components/users/users.component';
 
 const routes: Routes = [
+  {
+    path: 'users',
+    component: UsersComponent,
+  },
   {
     path: '',
     component: RegisterComponent,
