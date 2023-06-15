@@ -10,7 +10,7 @@ import { ProfileComponent } from './Components/profile/profile.component';
 
 const routes: Routes = [
   {
-    path: 'profiles',
+    path: 'profile',
     component: ProfileComponent,
   },
   {
