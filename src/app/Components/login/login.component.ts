@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Firestore, collection, doc, getDoc } from '@angular/fire/firestore';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { Router } from '@angular/router';
 
 @Component({
@@ -8,38 +8,22 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  email: any;
-  password: any;
-  collectionRef;
+  email: string = '';
+  password: string = '';
 
-  constructor(private firestore: Firestore, private router: Router) {
-    this.collectionRef = collection(this.firestore, 'logincred');
-  }
+  constructor(private router: Router) {}
 
   ngOnInit(): void {}
 
-  async login() {
-    const docRef = doc(this.collectionRef, 'logincred');
-    const docSnap = await getDoc(docRef);
-    console.log('hello', docSnap);
-
-    if (docSnap) {
-      const data = docSnap.data();
-      console.log('data', data);
-      const storedEmail = data?.email;
-      const storedPassword = data?.password;
-
-      console.log('Stored Email:', storedEmail);
-      console.log('Stored Password:', storedPassword);
-      console.log('Entered Email:', this.email);
-      console.log('Entered Password:', this.password);
-
-      if (this.email === storedEmail && this.password === storedPassword) {
+  login() {
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, this.email, this.password)
+      .then(() => {
         console.log('Login successful');
         this.router.navigate(['/Trip/Create']);
-      } else {
-        console.log('Incorrect credentials');
-      }
-    }
+      })
+      .catch((error) => {
+        console.log('Error logging in:', error);
+      });
   }
 }

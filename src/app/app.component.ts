@@ -11,5 +11,8 @@ export class AppComponent {
   isLoginPage(): boolean {
     return this.router.url === '/login';
   }
+  isRegisterPage(): boolean {
+    return this.router.url === '/register';
+  }
   title = 'FinalBuild';
 }
