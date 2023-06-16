@@ -21,6 +21,7 @@ import { UsersComponent } from './Components/users/users.component';
 import { Firestore, collection, addDoc } from '@angular/fire/firestore';
 import { UserviewComponent } from './Components/userview/userview.component';
 import { ProfileComponent } from './Components/profile/profile.component';
+import { AuthGuard } from './Services/authguard.service';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,7 @@ import { ProfileComponent } from './Components/profile/profile.component';
     provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore()),
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

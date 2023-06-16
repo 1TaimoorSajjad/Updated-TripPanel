@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Firestore, doc, getDoc, collection } from '@angular/fire/firestore';
+import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 import { getAuth } from 'firebase/auth';
 
 @Component({
@@ -9,30 +9,34 @@ import { getAuth } from 'firebase/auth';
 })
 export class ProfileComponent implements OnInit {
   loggedInUser: any;
-  collectionRef: any;
+  documentId: string = '';
 
-  constructor(private firestore: Firestore) {
-    this.collectionRef = collection(this.firestore, 'logincred');
-  }
+  constructor(private firestore: Firestore) {}
 
   ngOnInit(): void {
-    this.getDataFromFirestore();
+    this.getDataFromFirestore(this.documentId);
   }
 
-  async getDataFromFirestore(): Promise<void> {
+  getDataFromFirestore(documentId: string): void {
     const auth = getAuth();
     const user = auth.currentUser;
 
     if (user) {
-      const uid = user.uid;
-      const docRef = doc(this.collectionRef, uid);
+      const docRef = doc(this.firestore, 'logincred', documentId);
 
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        this.loggedInUser = docSnap.data();
-      } else {
-        console.log('No such document!');
-      }
+      getDoc(docRef)
+        .then((docSnap) => {
+          console.log('Document Snapshot:', docSnap);
+
+          if (docSnap.exists()) {
+            this.loggedInUser = docSnap.data();
+          } else {
+            console.log('No such document!');
+          }
+        })
+        .catch((error) => {
+          console.log('Error getting document:', error);
+        });
     }
   }
 }

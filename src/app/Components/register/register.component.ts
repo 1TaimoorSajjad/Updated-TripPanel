@@ -33,6 +33,7 @@ export class RegisterComponent implements OnInit {
 
   register() {
     const auth = getAuth();
+    console.log('auth', auth);
     let userCredentials: any;
 
     createUserWithEmailAndPassword(auth, this.email, this.password)
