@@ -1,13 +1,9 @@
 <div *ngIf="loggedInUser">
-  <h2>User Information</h2>
-  <dl>
-    <div>
-      <dt>Display Name:</dt>
-      <dd>{{ loggedInUser.name }}</dd>
-    </div>
-    <div>
-      <dt>Email:</dt>
-      <dd>{{ loggedInUser.email }}</dd>
-    </div>
-  </dl>
+  <h2>Welcome, {{ loggedInUser.name }}</h2>
+  <p>Email: {{ loggedInUser.email }}</p>
+  <p>Age: {{ loggedInUser.contactNumber }}</p>
+</div>
+
+<div *ngIf="!loggedInUser">
+  <p>Loading user data...</p>
 </div>

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 import { getAuth, signOut } from 'firebase/auth';
 
 @Component({
@@ -8,9 +9,11 @@ import { getAuth, signOut } from 'firebase/auth';
   styleUrls: ['./sidenav.component.css'],
 })
 export class SidenavComponent implements OnInit {
+  @Input() loggedInUser: any;
+
   isTripDetailsActive: boolean = true;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private firestore: Firestore) {}
 
   ngOnInit(): void {}
 

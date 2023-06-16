@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Firestore, doc, getDoc } from '@angular/fire/firestore';
+import { Firestore, doc, getDoc, collection } from '@angular/fire/firestore';
 import { getAuth } from 'firebase/auth';
 
 @Component({
@@ -9,20 +9,23 @@ import { getAuth } from 'firebase/auth';
 })
 export class ProfileComponent implements OnInit {
   loggedInUser: any;
-  documentId: string = '';
+  collectionRef: any;
 
-  constructor(private firestore: Firestore) {}
-
-  ngOnInit(): void {
-    this.getDataFromFirestore(this.documentId);
+  constructor(private firestore: Firestore) {
+    this.collectionRef = collection(this.firestore, 'logincred');
   }
 
-  getDataFromFirestore(documentId: string): void {
+  ngOnInit(): void {
+    this.getDataFromFirestore();
+  }
+
+  getDataFromFirestore(): void {
     const auth = getAuth();
     const user = auth.currentUser;
 
     if (user) {
-      const docRef = doc(this.firestore, 'logincred', documentId);
+      const collectionId = user.uid;
+      const docRef = doc(this.collectionRef, collectionId);
 
       getDoc(docRef)
         .then((docSnap) => {
