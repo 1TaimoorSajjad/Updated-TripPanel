@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { getAuth } from 'firebase/auth';
+import {
+  getAuth,
+  onAuthStateChanged,
+  browserSessionPersistence,
+  setPersistence,
+} from 'firebase/auth';
 
 @Component({
   selector: 'app-root',
@@ -25,9 +30,18 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     const auth = getAuth();
-    this.user = auth.currentUser;
-    console.log(auth);
-    const user = auth.currentUser;
-    console.log('user', user);
+    setPersistence(auth, browserSessionPersistence)
+      .then(() => {
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            this.router.navigate(['/']);
+          } else {
+            this.router.navigate(['/login']);
+          }
+        });
+      })
+      .catch((error) => {
+        console.log('Error setting persistence:', error);
+      });
   }
 }

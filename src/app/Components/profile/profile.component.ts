@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   Firestore,
   query,
@@ -6,8 +6,8 @@ import {
   where,
   getDocs,
 } from '@angular/fire/firestore';
-import { getAuth } from 'firebase/auth';
-import { UserService } from 'src/app/Services/user.service';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -17,41 +17,51 @@ export class ProfileComponent implements OnInit {
   loggedInUser: any;
   collectionRef: any;
 
-  constructor(private firestore: Firestore, private userService: UserService) {
+  constructor(private firestore: Firestore) {
     this.collectionRef = collection(this.firestore, 'logincred');
   }
 
   ngOnInit(): void {
-    this.getDataFromFirestore();
+    this.listenToAuthChanges();
   }
 
-  getDataFromFirestore(): void {
+  listenToAuthChanges(): void {
     const auth = getAuth();
-    const user = auth.currentUser;
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const email = user.email;
+        const uid = user.uid;
 
-    if (user) {
-      const email = user.email;
-      const uid = user.uid;
+        if (email) {
+          this.getDataFromFirestore(email, uid);
+        } else {
+          console.log('User email is null.');
+          this.loggedInUser = null;
+        }
+      } else {
+        this.loggedInUser = null;
+      }
+    });
+  }
 
-      const queryRef = query(
-        this.collectionRef,
-        where('email', '==', email),
-        where('uid', '==', uid)
-      );
+  getDataFromFirestore(email: string, uid: string): void {
+    const queryRef = query(
+      this.collectionRef,
+      where('email', '==', email),
+      where('uid', '==', uid)
+    );
 
-      getDocs(queryRef)
-        .then((querySnapshot) => {
-          if (!querySnapshot.empty) {
-            const doc = querySnapshot.docs[0];
-            this.loggedInUser = doc.data();
-            this.userService.setLoggedInUser(this.loggedInUser);
-          } else {
-            console.log('No matching document found!');
-          }
-        })
-        .catch((error) => {
-          console.log('Error getting document:', error);
-        });
-    }
+    getDocs(queryRef)
+      .then((querySnapshot) => {
+        if (!querySnapshot.empty) {
+          const doc = querySnapshot.docs[0];
+          this.loggedInUser = doc.data();
+        } else {
+          console.log('No matching document found!');
+        }
+      })
+      .catch((error) => {
+        console.log('Error getting document:', error);
+      });
   }
 }

@@ -1,6 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { getAuth, signOut } from 'firebase/auth';
+import {
+  browserSessionPersistence,
+  getAuth,
+  onAuthStateChanged,
+  setPersistence,
+  signOut,
+} from 'firebase/auth';
 import {
   Firestore,
   query,
@@ -18,53 +24,54 @@ export class SidenavComponent implements OnInit {
   isTripDetailsActive: boolean = true;
   loggedInUser: any;
   collectionRef: any;
-  auth: any;
 
   constructor(private router: Router, private firestore: Firestore) {
     this.collectionRef = collection(this.firestore, 'logincred');
   }
 
   ngOnInit(): void {
-    this.getDataFromFirestore();
+    this.listenToAuthChanges();
   }
 
-  getDataFromFirestore() {
-    this.auth = getAuth();
-    console.log(this.auth);
-    const user = this.auth.currentUser;
-    console.log('user', user);
-    if (user) {
-      const email = user.email;
-      const uid = user.uid;
-
-      console.log(user);
-      const queryRef = query(
-        this.collectionRef,
-        where('email', '==', email),
-        where('uid', '==', uid)
-      );
-
-      getDocs(queryRef)
-        .then((querySnapshot) => {
-          if (!querySnapshot.empty) {
-            console.log(querySnapshot.docs);
-            const doc = querySnapshot.docs[0];
-            this.loggedInUser = doc.data();
+  listenToAuthChanges(): void {
+    const auth = getAuth();
+    setPersistence(auth, browserSessionPersistence)
+      .then(() => {
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            this.loggedInUser = user;
+            this.getDataFromFirestore(user.uid);
           } else {
-            console.log('No matching document found!');
+            this.loggedInUser = null;
           }
-        })
-        .catch((error) => {
-          console.log('Error getting document:', error);
         });
-    }
+      })
+      .catch((error) => {
+        console.log('Error setting auth persistence:', error);
+      });
   }
 
-  signOut() {
-    signOut(this.auth)
-      .then((error) => {
-        console.log('Sign in Successful:', error);
+  getDataFromFirestore(uid: string): void {
+    const queryRef = query(this.collectionRef, where('uid', '==', uid));
 
+    getDocs(queryRef)
+      .then((querySnapshot) => {
+        if (!querySnapshot.empty) {
+          const doc = querySnapshot.docs[0];
+          this.loggedInUser = doc.data();
+        } else {
+          console.log('No matching document found!');
+        }
+      })
+      .catch((error) => {
+        console.log('Error getting document:', error);
+      });
+  }
+  signOut() {
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        console.log('Sign out successful');
         this.router.navigate(['/login']);
       })
       .catch((error) => {

@@ -119,9 +119,7 @@
           />
         </svg>
 
-        <span class="mt-2">{{
-          (loggedInUser && loggedInUser.name) || "n/a"
-        }}</span>
+        {{ loggedInUser?.name }}
       </button>
     </div>
   </div>
