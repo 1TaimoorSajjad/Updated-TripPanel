@@ -1,7 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 import { getAuth, signOut } from 'firebase/auth';
+import {
+  Firestore,
+  query,
+  collection,
+  where,
+  getDocs,
+} from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-sidenav',
@@ -9,19 +15,55 @@ import { getAuth, signOut } from 'firebase/auth';
   styleUrls: ['./sidenav.component.css'],
 })
 export class SidenavComponent implements OnInit {
-  @Input() loggedInUser: any;
-
   isTripDetailsActive: boolean = true;
+  loggedInUser: any;
+  collectionRef: any;
+  auth: any;
 
-  constructor(private router: Router, private firestore: Firestore) {}
+  constructor(private router: Router, private firestore: Firestore) {
+    this.collectionRef = collection(this.firestore, 'logincred');
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getDataFromFirestore();
+  }
+
+  getDataFromFirestore() {
+    this.auth = getAuth();
+    console.log(this.auth);
+    const user = this.auth.currentUser;
+    console.log('user', user);
+    if (user) {
+      const email = user.email;
+      const uid = user.uid;
+
+      console.log(user);
+      const queryRef = query(
+        this.collectionRef,
+        where('email', '==', email),
+        where('uid', '==', uid)
+      );
+
+      getDocs(queryRef)
+        .then((querySnapshot) => {
+          if (!querySnapshot.empty) {
+            console.log(querySnapshot.docs);
+            const doc = querySnapshot.docs[0];
+            this.loggedInUser = doc.data();
+          } else {
+            console.log('No matching document found!');
+          }
+        })
+        .catch((error) => {
+          console.log('Error getting document:', error);
+        });
+    }
+  }
 
   signOut() {
-    const auth = getAuth();
-    signOut(auth)
+    signOut(this.auth)
       .then((error) => {
-        console.log('Sign out Successful:', error);
+        console.log('Sign in Successful:', error);
 
         this.router.navigate(['/login']);
       })

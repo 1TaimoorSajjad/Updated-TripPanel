@@ -99,7 +99,7 @@
       </button>
     </div>
     <div class="mt-auto w-full flex-1 space-y-1 px-2">
-      <a
+      <button
         routerLink="/profile"
         [routerLinkActive]="['bg-indigo-800', '']"
         class="text-white group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium"
@@ -119,9 +119,10 @@
           />
         </svg>
 
-        <span class="mt-2">{{ loggedInUser?.name }}</span>
-        <!-- Display logged-in user's name -->
-      </a>
+        <span class="mt-2">{{
+          (loggedInUser && loggedInUser.name) || "n/a"
+        }}</span>
+      </button>
     </div>
   </div>
 </div>
