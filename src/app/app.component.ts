@@ -14,5 +14,8 @@ export class AppComponent {
   isRegisterPage(): boolean {
     return this.router.url === '/register';
   }
+  isEmptyURL(): boolean {
+    return this.router.url === '/';
+  }
   title = 'FinalBuild';
 }

@@ -42,6 +42,7 @@ import { ProfileComponent } from './Components/profile/profile.component';
     HttpClientModule,
     FormsModule,
     FirestoreModule,
+
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
