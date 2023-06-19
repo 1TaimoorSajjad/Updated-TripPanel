@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     signInWithEmailAndPassword(auth, this.email, this.password)
       .then(() => {
         console.log('Login successful');
-        this.router.navigate(['/Trip/Create']);
+        this.router.navigate(['/Trip/List']);
       })
       .catch((error) => {
         console.log('Error logging in:', error);
